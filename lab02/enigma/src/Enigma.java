@@ -84,14 +84,10 @@ public class Enigma {
         FileOutputStream fileOutputStream = new FileOutputStream(dst, false);
         DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);
 
-        try {
-            while (true) {
-                byte bin = dataInputStream.readByte();
-                int c = cipherChar(Byte.toUnsignedInt(bin));
-                dataOutputStream.writeByte((byte)c);
-            }
-        } catch (EOFException e) {
-            System.out.println("END OF FILE");
+        while (dataInputStream.available() > 0) {
+            byte bin = dataInputStream.readByte();
+            int c = cipherChar(Byte.toUnsignedInt(bin));
+            dataOutputStream.writeByte((byte)c);
         }
 
         fileInputStream.close();
