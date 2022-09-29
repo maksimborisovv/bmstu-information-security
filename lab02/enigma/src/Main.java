@@ -2,10 +2,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("ENIGMA START");
-
-        Enigma enigma = new Enigma();
-        Enigma enigma2 = new Enigma();
+        Enigma enigma = new Enigma(0, 0, 0);
+        Enigma enigma2 = new Enigma(0, 0, 0);
 
         try {
             enigma.cipherFile("src.txt", "src2.txt");
@@ -15,7 +13,5 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        System.out.println("ENIGMA STOP");
     }
 }
