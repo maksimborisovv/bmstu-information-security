@@ -1,9 +1,7 @@
 import util.PropertiesUtil;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Enigma {
     public ArrayList<Integer> rightRotor;
@@ -15,15 +13,15 @@ public class Enigma {
     public int middleRotorPos;
     public int leftRotorPos;
 
-    public Enigma() {
+    public Enigma(int rightRotorPos, int middleRotorPos, int leftRotorPos) {
         rightRotor = PropertiesUtil.getRotor("right");
         middleRotor = PropertiesUtil.getRotor("middle");
         leftRotor = PropertiesUtil.getRotor("left");
         reflector = PropertiesUtil.getReflector();
 
-        rightRotorPos = 0;
-        middleRotorPos = 0;
-        leftRotorPos = 0;
+        this.rightRotorPos = rightRotorPos;
+        this.middleRotorPos = middleRotorPos;
+        this.leftRotorPos = leftRotorPos;
 
         if (!checkCorrect()) {
             throw new RuntimeException();
@@ -82,29 +80,21 @@ public class Enigma {
     public void cipherFile(String src, String dst) throws IOException {
         FileInputStream fileInputStream = new FileInputStream(src);
         DataInputStream dataInputStream = new DataInputStream(fileInputStream);
-        System.out.println("OPEN INPUT");
 
         FileOutputStream fileOutputStream = new FileOutputStream(dst, false);
         DataOutputStream dataOutputStream = new DataOutputStream(fileOutputStream);
-        System.out.println("OPEN OUTPUT");
 
         try {
             while (true) {
                 byte bin = dataInputStream.readByte();
-                System.out.print(bin + "|");
                 int c = cipherChar(Byte.toUnsignedInt(bin));
-                byte binRes = (byte)c;
-                System.out.print(binRes + " ");
                 dataOutputStream.writeByte((byte)c);
             }
         } catch (EOFException e) {
-            System.out.println("");
             System.out.println("END OF FILE");
         }
 
         fileInputStream.close();
-        System.out.println("INPUT CLOSED");
         fileOutputStream.close();
-        System.out.println("OUTPUT CLOSED");
     }
 }
